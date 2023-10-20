@@ -22,7 +22,7 @@ npm install
 Ingresar a su servicio de base de datos MySQL y crear una base de datos.
 
 ```
-create databaase pokemon;
+create database pokemon;
 ```
 
 ### Configurar
