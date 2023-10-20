@@ -31,6 +31,8 @@ Configurar .env con los datos de conexion de su base de datos creada.
 
 ### Definir modelo de datos y cargar los pokemones
 
+Ingresar al directorio de proyecto
+
 ```
 php artisan migrate
 php artisan app:poke 100
@@ -38,11 +40,24 @@ php artisan app:poke 100
 
 ## Frontend
 
-Compilar assets para la aplicacion.
+Ingresar al directorio de proyecto. Compilar assets para la aplicacion.
 
 ```
 npm run dev
 ```
+
+## Ver el proyecto
+
+Ingresar al directorio de proyecto
+
+```
+php artisan serve
+```
+
+### El proyecto se debe ver algo parecido a lo siguiente
+
+![Proyecto](https://github.com/asterion/poke_desk/blob/develop/image.png?raw=true)
+
 
 ## Command artisan
 
