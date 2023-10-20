@@ -3394,10 +3394,22 @@ function Welcome(props) {
     _useState4 = _slicedToArray(_useState3, 2),
     pokemonFiltered = _useState4[0],
     setPokemonFiltered = _useState4[1];
-  var _useState5 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(''),
+  var _useState5 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(0),
     _useState6 = _slicedToArray(_useState5, 2),
-    searchInput = _useState6[0],
-    setSearchInput = _useState6[1];
+    indexOfFirstRecord = _useState6[0],
+    setIndexOfFirstRecord = _useState6[1];
+  var _useState7 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(10),
+    _useState8 = _slicedToArray(_useState7, 2),
+    indexOfLastRecord = _useState8[0],
+    setIndexOfLastRecord = _useState8[1];
+  var _useState9 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(''),
+    _useState10 = _slicedToArray(_useState9, 2),
+    searchInput = _useState10[0],
+    setSearchInput = _useState10[1];
+  var setSlice = function setSlice(first, last) {
+    setIndexOfFirstRecord(first);
+    setIndexOfLastRecord(last);
+  };
   var searchItems = function searchItems(e) {
     var data = props.pokemons;
     if (e.target.value) {
@@ -3419,17 +3431,17 @@ function Welcome(props) {
           className: "col-12 col-md-6",
           children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)(react__WEBPACK_IMPORTED_MODULE_0__.Fragment, {
             children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("div", {
-              "class": "form-floating mb-3",
+              className: "form-floating mb-3",
               children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("input", {
                 type: "search",
-                "class": "form-control",
+                className: "form-control",
                 id: "search",
                 placeholder: "Buscar...",
                 onChange: function onChange(e) {
                   return setSearchInput(e.target.value);
                 }
               }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("label", {
-                "for": "search",
+                htmlFor: "search",
                 children: "Buscar"
               })]
             }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("div", {
@@ -3448,7 +3460,7 @@ function Welcome(props) {
                 }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("tbody", {
                   children: props.pokemons.filter(function (p) {
                     return p.name.includes(searchInput);
-                  }).map(function (pokemon) {
+                  }).slice(indexOfFirstRecord, indexOfLastRecord).map(function (pokemon) {
                     return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("tr", {
                       className: "cursor",
                       children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("th", {
@@ -3465,6 +3477,112 @@ function Welcome(props) {
                   })
                 })]
               })
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("nav", {
+              "aria-label": "Page navigation example",
+              children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("ul", {
+                className: "pagination",
+                children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("li", {
+                  className: "page-item",
+                  children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("a", {
+                    className: "page-link",
+                    href: "#",
+                    onClick: function onClick(e) {
+                      return setSlice(0, 10);
+                    },
+                    children: "1"
+                  })
+                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("li", {
+                  className: "page-item",
+                  children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("a", {
+                    className: "page-link",
+                    href: "#",
+                    onClick: function onClick(e) {
+                      return setSlice(10, 20);
+                    },
+                    children: "2"
+                  })
+                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("li", {
+                  className: "page-item",
+                  children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("a", {
+                    className: "page-link",
+                    href: "#",
+                    onClick: function onClick(e) {
+                      return setSlice(20, 30);
+                    },
+                    children: "3"
+                  })
+                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("li", {
+                  className: "page-item",
+                  children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("a", {
+                    className: "page-link",
+                    href: "#",
+                    onClick: function onClick(e) {
+                      return setSlice(30, 40);
+                    },
+                    children: "4"
+                  })
+                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("li", {
+                  className: "page-item",
+                  children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("a", {
+                    className: "page-link",
+                    href: "#",
+                    onClick: function onClick(e) {
+                      return setSlice(40, 50);
+                    },
+                    children: "5"
+                  })
+                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("li", {
+                  className: "page-item",
+                  children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("a", {
+                    className: "page-link",
+                    href: "#",
+                    onClick: function onClick(e) {
+                      return setSlice(50, 60);
+                    },
+                    children: "6"
+                  })
+                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("li", {
+                  className: "page-item",
+                  children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("a", {
+                    className: "page-link",
+                    href: "#",
+                    onClick: function onClick(e) {
+                      return setSlice(60, 70);
+                    },
+                    children: "7"
+                  })
+                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("li", {
+                  className: "page-item",
+                  children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("a", {
+                    className: "page-link",
+                    href: "#",
+                    onClick: function onClick(e) {
+                      return setSlice(70, 80);
+                    },
+                    children: "8"
+                  })
+                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("li", {
+                  className: "page-item",
+                  children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("a", {
+                    className: "page-link",
+                    href: "#",
+                    onClick: function onClick(e) {
+                      return setSlice(80, 90);
+                    },
+                    children: "9"
+                  })
+                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("li", {
+                  className: "page-item",
+                  children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("a", {
+                    className: "page-link",
+                    href: "#",
+                    onClick: function onClick(e) {
+                      return setSlice(90, 100);
+                    },
+                    children: "10"
+                  })
+                })]
+              })
             })]
           })
         }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("div", {
@@ -3478,7 +3596,7 @@ function Welcome(props) {
                 maxHeight: "20rem"
               }
             }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("h5", {
-              "class": "card-header text-capitalize text-center",
+              className: "card-header text-capitalize text-center",
               children: pokemonSelected.name
             }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("div", {
               className: "card-body",
