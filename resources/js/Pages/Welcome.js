@@ -6,6 +6,7 @@ export default function Welcome(props) {
     const [pokemonFiltered, setPokemonFiltered] = useState(props.pokemons);
     const [indexOfFirstRecord, setIndexOfFirstRecord] = useState(0);
     const [indexOfLastRecord, setIndexOfLastRecord] = useState(10);
+    const [isLoading, setIsLoading] = useState(true);
 
     const [searchInput, setSearchInput] = useState('');
 
@@ -14,17 +15,52 @@ export default function Welcome(props) {
         setIndexOfLastRecord(last);
     };
 
-    const searchItems = (e) => {
-        let data = props.pokemons;
-        if (e.target.value) {
-            console.log(searchInput);
-            data = props.pokemons.filter((p) => {
-                return p.name.toLowerCase().includes(searchInput.toLowerCase())
-            })
+    const queryPokemons = `query pokemons {
+        pokemon_v2_pokemon(limit: 100) {
+          id
+          name
+          height
+          base_experience
+          weight
+          abilities: pokemon_v2_pokemonabilities {
+            ability: pokemon_v2_ability {
+              id
+              name
+            }
+          }
+          sprites: pokemon_v2_pokemonsprites {
+            sprites
+          }
         }
+      }`;
 
-        setPokemonFiltered(data)
-    };
+    useEffect(() => {
+        fetch('https://beta.pokeapi.co/graphql/v1beta', {
+            credentials: "omit",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+              query: queryPokemons
+            }),
+            method: "POST"
+          })
+          .then((response) => response.json())
+          .then((pokemons) => {
+            console.log(pokemons.data.pokemon_v2_pokemon)
+            setPokemonFiltered(pokemons.data.pokemon_v2_pokemon);
+            setIsLoading(false);
+          }).catch((error) => {
+            console.log(error);
+            setPokemonFiltered(props.pokemons);
+          });
+    }, []);
+
+    if (isLoading) {
+        return (
+            <div className='container mt-2'>
+                Loading...
+            </div>
+        )
+    }
 
     return (
         <>
@@ -50,7 +86,7 @@ export default function Welcome(props) {
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        {props.pokemons.filter(p => p.name.includes(searchInput)).slice(indexOfFirstRecord, indexOfLastRecord).map((pokemon) => (
+                                        {pokemonFiltered.filter(p => p.name.includes(searchInput)).slice(indexOfFirstRecord, indexOfLastRecord).map((pokemon) => (
                                             <tr key={pokemon.id} className='cursor'>
                                                 <th>{pokemon.id}</th>
                                                 <th scope="row" onClick={() => setPokemonSelected(pokemon)} className='text-capitalize'>
@@ -99,8 +135,10 @@ export default function Welcome(props) {
                     </div>
                     <div className='col-12 col-md-6'>
                         <div className="card mb-3">
-                            <img src={pokemonSelected.image} className="img-fluid rounded-start p-1" style={{maxHeight: "20rem"}}/>
-                            <h5 className="card-header text-capitalize text-center">{pokemonSelected.name}</h5>
+                            <img src={`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/dream-world/` + pokemonSelected.id + `.svg`} className="img-fluid rounded-start p-1" style={{maxHeight: "20rem"}}/>
+                            <h5 className="card-header text-capitalize text-center">
+                                {pokemonSelected.name}
+                            </h5>
                             <div className="card-body">
                                 <ul className="card-text list-group list-group-flush">
                                     <li className='list-group-item'>Altura <span className='badge bg-secondary'>{pokemonSelected.height}</span></li>

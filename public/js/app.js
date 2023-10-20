@@ -3402,24 +3402,46 @@ function Welcome(props) {
     _useState8 = _slicedToArray(_useState7, 2),
     indexOfLastRecord = _useState8[0],
     setIndexOfLastRecord = _useState8[1];
-  var _useState9 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(''),
+  var _useState9 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(true),
     _useState10 = _slicedToArray(_useState9, 2),
-    searchInput = _useState10[0],
-    setSearchInput = _useState10[1];
+    isLoading = _useState10[0],
+    setIsLoading = _useState10[1];
+  var _useState11 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(''),
+    _useState12 = _slicedToArray(_useState11, 2),
+    searchInput = _useState12[0],
+    setSearchInput = _useState12[1];
   var setSlice = function setSlice(first, last) {
     setIndexOfFirstRecord(first);
     setIndexOfLastRecord(last);
   };
-  var searchItems = function searchItems(e) {
-    var data = props.pokemons;
-    if (e.target.value) {
-      console.log(searchInput);
-      data = props.pokemons.filter(function (p) {
-        return p.name.toLowerCase().includes(searchInput.toLowerCase());
-      });
-    }
-    setPokemonFiltered(data);
-  };
+  var queryPokemons = "query pokemons {\n        pokemon_v2_pokemon(limit: 100) {\n          id\n          name\n          height\n          base_experience\n          weight\n          abilities: pokemon_v2_pokemonabilities {\n            ability: pokemon_v2_ability {\n              id\n              name\n            }\n          }\n          sprites: pokemon_v2_pokemonsprites {\n            sprites\n          }\n        }\n      }";
+  (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(function () {
+    fetch('https://beta.pokeapi.co/graphql/v1beta', {
+      credentials: "omit",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        query: queryPokemons
+      }),
+      method: "POST"
+    }).then(function (response) {
+      return response.json();
+    }).then(function (pokemons) {
+      console.log(pokemons.data.pokemon_v2_pokemon);
+      setPokemonFiltered(pokemons.data.pokemon_v2_pokemon);
+      setIsLoading(false);
+    })["catch"](function (error) {
+      console.log(error);
+      setPokemonFiltered(props.pokemons);
+    });
+  }, []);
+  if (isLoading) {
+    return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("div", {
+      className: "container mt-2",
+      children: "Loading..."
+    });
+  }
   return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.Fragment, {
     children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)(_inertiajs_inertia_react__WEBPACK_IMPORTED_MODULE_1__.Head, {
       title: "PokeDesk MZZO"
@@ -3458,7 +3480,7 @@ function Welcome(props) {
                     })]
                   })
                 }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("tbody", {
-                  children: props.pokemons.filter(function (p) {
+                  children: pokemonFiltered.filter(function (p) {
                     return p.name.includes(searchInput);
                   }).slice(indexOfFirstRecord, indexOfLastRecord).map(function (pokemon) {
                     return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("tr", {
@@ -3590,7 +3612,7 @@ function Welcome(props) {
           children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("div", {
             className: "card mb-3",
             children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("img", {
-              src: pokemonSelected.image,
+              src: "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/dream-world/" + pokemonSelected.id + ".svg",
               className: "img-fluid rounded-start p-1",
               style: {
                 maxHeight: "20rem"
