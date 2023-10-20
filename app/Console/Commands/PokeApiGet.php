@@ -62,7 +62,8 @@ class PokeApiGet extends Command
                             'base_experience' => $pokemon['base_experience'],
                             'height' => $pokemon['height'],
                             'weight' => $pokemon['weight'],
-                            'image' => $pokemon['sprites']['front_default'],
+                            // 'image' => $pokemon['sprites']['front_default'],
+                            'image' => $pokemon['sprites']['other']['dream_world']['front_default'],
                         ]
                     );
 

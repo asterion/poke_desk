@@ -57,20 +57,14 @@ export default function Welcome(props) {
                     </div>
                     <div className='col-12 col-md-6'>
                         <div className="card mb-3">
-                            <div className="row g-0">
-                                <div className="col-md-4">
-                                    <img src={pokemonSelected.image} className="img-fluid rounded-start" />
-                                </div>
-                                <div className="col-md-8">
-                                <div className="card-body">
-                                    <h5 className="card-title text-capitalize">{pokemonSelected.name}</h5>
-                                    <ul className="card-text">
-                                        <li>Height : {pokemonSelected.height}</li>
-                                        <li>Weight : {pokemonSelected.weight}</li>
-                                        <li>Base Experience : {pokemonSelected.base_experience}</li>
-                                    </ul>
-                                </div>
-                                </div>
+                            <img src={pokemonSelected.image} className="img-fluid rounded-start p-1" style={{maxHeight: "20rem"}}/>
+                            <h5 class="card-header text-capitalize text-center">{pokemonSelected.name}</h5>
+                            <div className="card-body">
+                                <ul className="card-text list-group list-group-flush">
+                                    <li className='list-group-item'>Altura <span className='badge bg-secondary'>{pokemonSelected.height}</span></li>
+                                    <li className='list-group-item'>Peso <span className='badge bg-secondary'>{pokemonSelected.weight}</span></li>
+                                    <li className='list-group-item'>Experiencia base <span className='badge bg-secondary'>{pokemonSelected.base_experience}</span></li>
+                                </ul>
                             </div>
                         </div>
                     </div>
