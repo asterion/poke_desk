@@ -1,5 +1,7 @@
 import React, { Fragment, useState, useEffect } from 'react';
-import { Link, Head } from '@inertiajs/inertia-react';
+import { Head } from '@inertiajs/inertia-react';
+import Card from '@/Components/Card';
+import List from '@/Components/List';
 
 export default function Welcome(props) {
     const [pokemonSelected, setPokemonSelected] = useState(props.pokemon);
@@ -16,7 +18,7 @@ export default function Welcome(props) {
     };
 
     const queryPokemons = `query pokemons {
-        pokemon_v2_pokemon(limit: 100, offset: 0) {
+        pokemons: pokemon_v2_pokemon(limit: 100, offset: 0) {
           id
           name
           height
@@ -46,8 +48,8 @@ export default function Welcome(props) {
           })
           .then((response) => response.json())
           .then((pokemons) => {
-            console.log(pokemons.data.pokemon_v2_pokemon)
-            setPokemonFiltered(pokemons.data.pokemon_v2_pokemon);
+            console.log(pokemons.data.pokemons)
+            setPokemonFiltered(pokemons.data.pokemons);
             setIsLoading(false);
           }).catch((error) => {
             console.log(error);
@@ -75,33 +77,12 @@ export default function Welcome(props) {
                                 <input type="search" className="form-control" id="search" placeholder="Buscar..." onChange={e => setSearchInput(e.target.value)}  />
                                 <label htmlFor="search">Buscar</label>
                             </div>
-                            <div>
-                                <table className='table table-sm'>
-                                    <thead>
-                                        <tr>
-                                            <th scope="col">
-                                                #
-                                            </th>
-                                            <th scope="col">
-                                                Pokemon
-                                            </th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        {pokemonFiltered.filter(p => p.name.includes(searchInput)).slice(indexOfFirstRecord, indexOfLastRecord).map((pokemon) => (
-                                            <tr key={pokemon.id} className='cursor'>
-                                                <th>{pokemon.id}</th>
-                                                <th scope="row" onClick={() => setPokemonSelected(pokemon)} className='text-capitalize'>
-                                                    { pokemon.name }
-                                                </th>
-                                            </tr>
-                                        ))}
-                                    </tbody>
-                                </table>
+                            <div className='mb-1'>
+                                <List pokemons={pokemonFiltered.slice(indexOfFirstRecord, indexOfLastRecord)} setPokemonSelected={setPokemonSelected} />
                             </div>
-                            <nav aria-label="Page navigation example">
+                            <nav aria-label="Page navigation pokemons">
                                 <ul className="pagination">
-                                <li className="page-item">
+                                    <li className="page-item">
                                         <a className="page-link" href="#" onClick={e => setSlice(0, 10)}>1</a>
                                     </li>
                                     <li className="page-item">
@@ -136,34 +117,7 @@ export default function Welcome(props) {
                         </Fragment>
                     </div>
                     <div className='col-12 col-md-6'>
-                        <div className="card mb-3">
-                            <img src={`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/dream-world/` + pokemonSelected.id + `.svg`} className="img-fluid rounded-start p-1" style={{maxHeight: "20rem"}}/>
-                            <h5 className="card-header text-capitalize text-center">
-                                {pokemonSelected.name}
-                            </h5>
-                            <div className="card-body">
-                                <ul className="list-group">
-                                    <li className="list-group-item d-flex justify-content-between align-items-center">
-                                        Altura
-                                        <span className="badge bg-primary rounded-pill">{pokemonSelected.height}</span>
-                                    </li>
-                                    <li className="list-group-item d-flex justify-content-between align-items-center">
-                                        Peso
-                                        <span className="badge bg-primary rounded-pill">{pokemonSelected.weight}</span>
-                                    </li>
-                                    <li className="list-group-item d-flex justify-content-between align-items-center">
-                                        Experiencia base
-                                        <span className="badge bg-primary rounded-pill">{pokemonSelected.base_experience}</span>
-                                    </li>
-
-                                    {pokemonSelected.abilities.map((ability) => (
-                                        <li className="list-group-item d-flex justify-content-between align-items-center text-capitalize" key={ability.id}>
-                                            {ability?.ability?.name || ability?.name}
-                                        </li>
-                                    ))}
-                                </ul>
-                            </div>
-                        </div>
+                        <Card pokemon={pokemonSelected} />
                     </div>
                 </div>
             </div>
