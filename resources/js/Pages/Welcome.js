@@ -16,13 +16,14 @@ export default function Welcome(props) {
     };
 
     const queryPokemons = `query pokemons {
-        pokemon_v2_pokemon(limit: 100) {
+        pokemon_v2_pokemon(limit: 100, offset: 0) {
           id
           name
           height
           base_experience
           weight
           abilities: pokemon_v2_pokemonabilities {
+            id
             ability: pokemon_v2_ability {
               id
               name
@@ -50,6 +51,7 @@ export default function Welcome(props) {
             setIsLoading(false);
           }).catch((error) => {
             console.log(error);
+            setIsLoading(false);
             setPokemonFiltered(props.pokemons);
           });
     }, []);
@@ -140,10 +142,25 @@ export default function Welcome(props) {
                                 {pokemonSelected.name}
                             </h5>
                             <div className="card-body">
-                                <ul className="card-text list-group list-group-flush">
-                                    <li className='list-group-item'>Altura <span className='badge bg-secondary'>{pokemonSelected.height}</span></li>
-                                    <li className='list-group-item'>Peso <span className='badge bg-secondary'>{pokemonSelected.weight}</span></li>
-                                    <li className='list-group-item'>Experiencia base <span className='badge bg-secondary'>{pokemonSelected.base_experience}</span></li>
+                                <ul className="list-group">
+                                    <li className="list-group-item d-flex justify-content-between align-items-center">
+                                        Altura
+                                        <span className="badge bg-primary rounded-pill">{pokemonSelected.height}</span>
+                                    </li>
+                                    <li className="list-group-item d-flex justify-content-between align-items-center">
+                                        Peso
+                                        <span className="badge bg-primary rounded-pill">{pokemonSelected.weight}</span>
+                                    </li>
+                                    <li className="list-group-item d-flex justify-content-between align-items-center">
+                                        Experiencia base
+                                        <span className="badge bg-primary rounded-pill">{pokemonSelected.base_experience}</span>
+                                    </li>
+
+                                    {pokemonSelected.abilities.map((ability) => (
+                                        <li className="list-group-item d-flex justify-content-between align-items-center text-capitalize" key={ability.id}>
+                                            {ability?.ability?.name || ability?.name}
+                                        </li>
+                                    ))}
                                 </ul>
                             </div>
                         </div>

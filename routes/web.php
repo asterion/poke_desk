@@ -22,8 +22,8 @@ Route::get('/', function () {
         'canRegister' => Route::has('register'),
         'laravelVersion' => Application::VERSION,
         'phpVersion' => PHP_VERSION,
-        'pokemons' => Pokemon::all(),
-        'pokemon' => Pokemon::first(),
+        'pokemons' => Pokemon::with('abilities')->get(),
+        'pokemon' => Pokemon::with('abilities')->first(),
     ]);
 });
 

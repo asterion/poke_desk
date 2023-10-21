@@ -3,6 +3,7 @@
 namespace App\Console\Commands;
 
 use App\Models\Pokemon;
+use App\Models\PokemonAbility;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Http;
 
@@ -46,7 +47,7 @@ class PokeApiGet extends Command
 
         try {
             $this->info('Inicio: por favor espere unos segundos...');
-            $response = Http::get('https://pokeapi.co/api/v2/pokemon?limit=' . $limit);
+            $response = Http::get('https://pokeapi.co/api/v2/pokemon?offset=0&limit=' . $limit);
             if ($response->ok()) {
                 $results = $response->json();
 
@@ -54,7 +55,7 @@ class PokeApiGet extends Command
                     $response = Http::get($pokemon['url'] );
                     $pokemon = $response->json();
 
-                    // 'abilities : ' . print_r($pokemon['abilities'], true),
+                    $abilities = collect($pokemon['abilities'])->pluck('ability.name');
 
                     $pokemon = Pokemon::updateOrCreate(
                         ['name' => $pokemon['name']],
@@ -65,6 +66,16 @@ class PokeApiGet extends Command
                             'image' => $pokemon['sprites']['other']['dream_world']['front_default'],
                         ]
                     );
+
+                    foreach ($abilities as $name) {
+                        PokemonAbility::updateOrCreate([
+                            'pokemon_id' => $pokemon->id,
+                            'ability' => $name
+                        ], [
+                            'pokemon_id' => $pokemon->id,
+                            'ability' => $name
+                        ]);
+                    }
 
                     $this->info(sprintf('pokemon "%s" actualizado correctamente.', $pokemon->name));
                 }

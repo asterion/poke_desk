@@ -3414,7 +3414,7 @@ function Welcome(props) {
     setIndexOfFirstRecord(first);
     setIndexOfLastRecord(last);
   };
-  var queryPokemons = "query pokemons {\n        pokemon_v2_pokemon(limit: 100) {\n          id\n          name\n          height\n          base_experience\n          weight\n          abilities: pokemon_v2_pokemonabilities {\n            ability: pokemon_v2_ability {\n              id\n              name\n            }\n          }\n          sprites: pokemon_v2_pokemonsprites {\n            sprites\n          }\n        }\n      }";
+  var queryPokemons = "query pokemons {\n        pokemon_v2_pokemon(limit: 100, offset: 0) {\n          id\n          name\n          height\n          base_experience\n          weight\n          abilities: pokemon_v2_pokemonabilities {\n            id\n            ability: pokemon_v2_ability {\n              id\n              name\n            }\n          }\n          sprites: pokemon_v2_pokemonsprites {\n            sprites\n          }\n        }\n      }";
   (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(function () {
     fetch('https://beta.pokeapi.co/graphql/v1beta', {
       credentials: "omit",
@@ -3433,6 +3433,7 @@ function Welcome(props) {
       setIsLoading(false);
     })["catch"](function (error) {
       console.log(error);
+      setIsLoading(false);
       setPokemonFiltered(props.pokemons);
     });
   }, []);
@@ -3623,25 +3624,31 @@ function Welcome(props) {
             }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("div", {
               className: "card-body",
               children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("ul", {
-                className: "card-text list-group list-group-flush",
+                className: "list-group",
                 children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("li", {
-                  className: "list-group-item",
-                  children: ["Altura ", /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("span", {
-                    className: "badge bg-secondary",
+                  className: "list-group-item d-flex justify-content-between align-items-center",
+                  children: ["Altura", /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("span", {
+                    className: "badge bg-primary rounded-pill",
                     children: pokemonSelected.height
                   })]
                 }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("li", {
-                  className: "list-group-item",
-                  children: ["Peso ", /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("span", {
-                    className: "badge bg-secondary",
+                  className: "list-group-item d-flex justify-content-between align-items-center",
+                  children: ["Peso", /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("span", {
+                    className: "badge bg-primary rounded-pill",
                     children: pokemonSelected.weight
                   })]
                 }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("li", {
-                  className: "list-group-item",
-                  children: ["Experiencia base ", /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("span", {
-                    className: "badge bg-secondary",
+                  className: "list-group-item d-flex justify-content-between align-items-center",
+                  children: ["Experiencia base", /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("span", {
+                    className: "badge bg-primary rounded-pill",
                     children: pokemonSelected.base_experience
                   })]
+                }), pokemonSelected.abilities.map(function (ability) {
+                  var _ability$ability;
+                  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("li", {
+                    className: "list-group-item d-flex justify-content-between align-items-center text-capitalize",
+                    children: (ability === null || ability === void 0 || (_ability$ability = ability.ability) === null || _ability$ability === void 0 ? void 0 : _ability$ability.name) || (ability === null || ability === void 0 ? void 0 : ability.name)
+                  }, ability.id);
                 })]
               })
             })]

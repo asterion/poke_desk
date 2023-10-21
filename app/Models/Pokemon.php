@@ -2,8 +2,9 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+use App\Models\PokemonAbility;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Pokemon extends Model
 {
@@ -22,4 +23,9 @@ class Pokemon extends Model
      * @var array
      */
     protected $fillable = ['name', 'base_experience', 'height', 'weight', 'image'];
+
+    public function abilities()
+    {
+        return $this->hasMany(PokemonAbility::class);
+    }
 }
