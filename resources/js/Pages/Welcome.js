@@ -2,15 +2,24 @@ import React, { Fragment, useState, useEffect } from 'react';
 import { Head } from '@inertiajs/inertia-react';
 import Card from '@/Components/Card';
 import List from '@/Components/List';
+import Pagination from 'react-bootstrap/Pagination';
 
 export default function Welcome(props) {
     const [pokemonSelected, setPokemonSelected] = useState(props.pokemon);
     const [pokemonFiltered, setPokemonFiltered] = useState(props.pokemons);
     const [indexOfFirstRecord, setIndexOfFirstRecord] = useState(0);
     const [indexOfLastRecord, setIndexOfLastRecord] = useState(10);
+    const [pages, setPages] = useState([1,2,3,4,5,6,7,8,9,10]);
+    const [page, setPage] = useState(1);
     const [isLoading, setIsLoading] = useState(true);
 
     const [searchInput, setSearchInput] = useState('');
+
+    const setCurrentPage = (number) => {
+        setPage(number);
+        setIndexOfFirstRecord((number*10)-10);
+        setIndexOfLastRecord(number*10);
+    }
 
     const setSlice = (first, last) => {
         setIndexOfFirstRecord(first);
@@ -71,52 +80,25 @@ export default function Welcome(props) {
             <Head title="PokeDesk MZZO" />
             <div className='container mt-2'>
                 <div className='row'>
-                    <div className='col-12 col-md-6'>
+                    <div className='col-12 col-md-6 order-last order-md-first'>
                         <Fragment>
                             <div className="form-floating mb-3">
                                 <input type="search" className="form-control" id="search" placeholder="Buscar..." onChange={e => setSearchInput(e.target.value)}  />
                                 <label htmlFor="search">Buscar</label>
                             </div>
                             <div className='mb-1'>
-                                <List pokemons={pokemonFiltered.slice(indexOfFirstRecord, indexOfLastRecord)} setPokemonSelected={setPokemonSelected} />
+                                <List pokemons={pokemonFiltered.filter(pokemon => pokemon.name.toLowerCase().includes(searchInput.toLocaleLowerCase())).slice(indexOfFirstRecord, indexOfLastRecord)} setPokemonSelected={setPokemonSelected} />
                             </div>
-                            <nav aria-label="Page navigation pokemons">
-                                <ul className="pagination">
-                                    <li className="page-item">
-                                        <a className="page-link" href="#" onClick={e => setSlice(0, 10)}>1</a>
-                                    </li>
-                                    <li className="page-item">
-                                        <a className="page-link" href="#" onClick={e => setSlice(10, 20)}>2</a>
-                                    </li>
-                                    <li className="page-item">
-                                        <a className="page-link" href="#" onClick={e => setSlice(20, 30)}>3</a>
-                                    </li>
-                                    <li className="page-item">
-                                        <a className="page-link" href="#" onClick={e => setSlice(30, 40)}>4</a>
-                                    </li>
-                                    <li className="page-item">
-                                        <a className="page-link" href="#" onClick={e => setSlice(40, 50)}>5</a>
-                                    </li>
-                                    <li className="page-item">
-                                        <a className="page-link" href="#" onClick={e => setSlice(50, 60)}>6</a>
-                                    </li>
-                                    <li className="page-item">
-                                        <a className="page-link" href="#" onClick={e => setSlice(60, 70)}>7</a>
-                                    </li>
-                                    <li className="page-item">
-                                        <a className="page-link" href="#" onClick={e => setSlice(70, 80)}>8</a>
-                                    </li>
-                                    <li className="page-item">
-                                        <a className="page-link" href="#" onClick={e => setSlice(80, 90)}>9</a>
-                                    </li>
-                                    <li className="page-item">
-                                        <a className="page-link" href="#" onClick={e => setSlice(90, 100)}>10</a>
-                                    </li>
-                                </ul>
-                            </nav>
+                            <Pagination>
+                                {pages.map(number => (
+                                    <Pagination.Item key={number} active={number === page} onClick={e => setCurrentPage(number)}>
+                                        {number}
+                                    </Pagination.Item>
+                                ))}
+                            </Pagination>
                         </Fragment>
                     </div>
-                    <div className='col-12 col-md-6'>
+                    <div className='col-12 col-md-6 order-first order-md-last'>
                         <Card pokemon={pokemonSelected} />
                     </div>
                 </div>
