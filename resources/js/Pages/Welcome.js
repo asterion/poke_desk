@@ -9,7 +9,7 @@ export default function Welcome(props) {
     const [pokemonFiltered, setPokemonFiltered] = useState(props.pokemons);
     const [indexOfFirstRecord, setIndexOfFirstRecord] = useState(0);
     const [indexOfLastRecord, setIndexOfLastRecord] = useState(10);
-    const [pages, setPages] = useState([1,2,3,4,5,6,7,8,9,10]);
+    const [pages] = useState([1,2,3,4,5,6,7,8,9,10]);
     const [page, setPage] = useState(1);
     const [isLoading, setIsLoading] = useState(true);
 
@@ -20,11 +20,6 @@ export default function Welcome(props) {
         setIndexOfFirstRecord((number*10)-10);
         setIndexOfLastRecord(number*10);
     }
-
-    const setSlice = (first, last) => {
-        setIndexOfFirstRecord(first);
-        setIndexOfLastRecord(last);
-    };
 
     const queryPokemons = `query pokemons {
         pokemons: pokemon_v2_pokemon(limit: 100, offset: 0) {
@@ -78,6 +73,16 @@ export default function Welcome(props) {
     return (
         <>
             <Head title="PokeDesk MZZO" />
+            <div className='container'>
+                <nav className="navbar bg-body-tertiary">
+                    <div className="container-fluid">
+                        <a className="navbar-brand" href="#">
+                            <img src="https://upload.wikimedia.org/wikipedia/commons/5/53/Pok%C3%A9_Ball_icon.svg" alt="Logo" height="24" className="d-inline-block align-text-top" />
+                            Los primero 100 pokemon
+                        </a>
+                    </div>
+                </nav>
+            </div>
             <div className='container mt-2'>
                 <div className='row'>
                     <div className='col-12 col-md-6 order-last order-md-first'>
@@ -89,7 +94,7 @@ export default function Welcome(props) {
                             <div className='mb-1'>
                                 <List pokemons={pokemonFiltered.filter(pokemon => pokemon.name.toLowerCase().includes(searchInput.toLocaleLowerCase())).slice(indexOfFirstRecord, indexOfLastRecord)} setPokemonSelected={setPokemonSelected} />
                             </div>
-                            <Pagination>
+                            <Pagination size="sm">
                                 {pages.map(number => (
                                     <Pagination.Item key={number} active={number === page} onClick={e => setCurrentPage(number)}>
                                         {number}

@@ -56,7 +56,9 @@ php artisan serve
 
 ### El proyecto se debe ver algo parecido a lo siguiente
 
-![Proyecto](https://github.com/asterion/poke_desk/blob/develop/image.png?raw=true)
+![Desktop](https://github.com/asterion/poke_desk/blob/develop/image.png?raw=true)
+
+![Mobile](https://github.com/asterion/poke_desk/blob/develop/mobile.png?raw=true)
 
 
 ## Command artisan
