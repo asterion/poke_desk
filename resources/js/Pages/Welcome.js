@@ -80,7 +80,7 @@ export default function Welcome(props) {
             <Head title="PokeDesk MZZO" />
             <div className='container mt-2'>
                 <div className='row'>
-                    <div className='col-12 col-md-6'>
+                    <div className='col-12 col-md-6 order-last order-md-first'>
                         <Fragment>
                             <div className="form-floating mb-3">
                                 <input type="search" className="form-control" id="search" placeholder="Buscar..." onChange={e => setSearchInput(e.target.value)}  />
@@ -98,7 +98,7 @@ export default function Welcome(props) {
                             </Pagination>
                         </Fragment>
                     </div>
-                    <div className='col-12 col-md-6'>
+                    <div className='col-12 col-md-6 order-first order-md-last'>
                         <Card pokemon={pokemonSelected} />
                     </div>
                 </div>
