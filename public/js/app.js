@@ -4477,7 +4477,9 @@ function Welcome(props) {
             }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("div", {
               className: "mb-1",
               children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)(_Components_List__WEBPACK_IMPORTED_MODULE_3__["default"], {
-                pokemons: pokemonFiltered.slice(indexOfFirstRecord, indexOfLastRecord),
+                pokemons: pokemonFiltered.filter(function (pokemon) {
+                  return pokemon.name.toLowerCase().includes(searchInput.toLocaleLowerCase());
+                }).slice(indexOfFirstRecord, indexOfLastRecord),
                 setPokemonSelected: setPokemonSelected
               })
             }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)(react_bootstrap_Pagination__WEBPACK_IMPORTED_MODULE_5__["default"], {

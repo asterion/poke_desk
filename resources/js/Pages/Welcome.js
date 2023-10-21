@@ -87,7 +87,7 @@ export default function Welcome(props) {
                                 <label htmlFor="search">Buscar</label>
                             </div>
                             <div className='mb-1'>
-                                <List pokemons={pokemonFiltered.slice(indexOfFirstRecord, indexOfLastRecord)} setPokemonSelected={setPokemonSelected} />
+                                <List pokemons={pokemonFiltered.filter(pokemon => pokemon.name.toLowerCase().includes(searchInput.toLocaleLowerCase())).slice(indexOfFirstRecord, indexOfLastRecord)} setPokemonSelected={setPokemonSelected} />
                             </div>
                             <Pagination>
                                 {pages.map(number => (
